@@ -18,7 +18,8 @@ export function Navbar() {
     <header className="sticky top-0 z-30 border-b border-ink-700/70 bg-ink-950/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 sm:px-6 lg:px-8" aria-label="Main">
         <Logo />
-        <div className="flex items-center gap-1">
+        {/* On phones the links drop to their own row below the logo and Log out button. */}
+        <div className="order-last flex w-full items-center gap-1 sm:order-none sm:w-auto">
           <NavLink to="/" end className={linkClass}>
             Showroom
           </NavLink>

@@ -39,14 +39,14 @@ export function FilterBar({ onChange }: { onChange: (filters: VehicleFilters) =>
 
   return (
     <section aria-label="Search and filter vehicles" className="rounded-2xl border border-ink-700 bg-ink-900/80 p-4 backdrop-blur sm:p-5">
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="col-span-2 sm:col-span-1">
           <label htmlFor="filter-make" className="label">
             Make
           </label>
           <input id="filter-make" className="input" placeholder="e.g. Toyota" value={state.make} onChange={set('make')} />
         </div>
-        <div>
+        <div className="col-span-2 sm:col-span-1">
           <label htmlFor="filter-model" className="label">
             Model
           </label>
