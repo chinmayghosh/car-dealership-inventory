@@ -4,7 +4,7 @@ Generated on 2026-10-24 with `node scripts/generate-test-report.mjs`.
 
 | Suite | Runner | Result | Status |
 | --- | --- | --- | --- |
-| Backend (API, services, middleware) | Jest + Supertest against a real SQLite test database | 89 passed of 89 | ✅ passing |
+| Backend (API, services, middleware) | Jest + Supertest against a real SQLite test database | 91 passed of 91 | ✅ passing |
 | Frontend (components, pages, API client) | Vitest + React Testing Library (jsdom) | 64 passed of 64 | ✅ passing |
 
 ## Backend
@@ -12,10 +12,10 @@ Generated on 2026-10-24 with `node scripts/generate-test-report.mjs`.
 ### Coverage summary
 
 ```
-Statements   : 100% ( 207/207 )
+Statements   : 100% ( 208/208 )
 Branches     : 86.95% ( 40/46 )
-Functions    : 100% ( 59/59 )
-Lines        : 100% ( 202/202 )
+Functions    : 100% ( 60/60 )
+Lines        : 100% ( 203/203 )
 ```
 
 ### Coverage by file
@@ -27,7 +27,7 @@ File                    | % Stmts | % Branch | % Funcs | % Lines | Uncovered Lin
 All files               |     100 |    86.95 |     100 |     100 |                   
  src                    |     100 |       50 |     100 |     100 |                   
   app.ts                |     100 |      100 |     100 |     100 |                   
-  config.ts             |     100 |       50 |     100 |     100 | 5-8               
+  config.ts             |     100 |       50 |     100 |     100 | 5-9               
  src/db                 |     100 |      100 |     100 |     100 |                   
   prisma.ts             |     100 |      100 |     100 |     100 |                   
  src/errors             |     100 |    33.33 |     100 |     100 |                   
@@ -54,6 +54,10 @@ All files               |     100 |    86.95 |     100 |     100 |
 ```
 
 ### Test cases
+
+**tests/cors.test.ts** ✅
+- ✅ allows every origin in a comma-separated CORS_ORIGIN list
+- ✅ does not allow origins that are not listed
 
 **tests/auth/login.test.ts** ✅
 - ✅ returns a valid JWT and the user profile for correct credentials
@@ -147,14 +151,6 @@ All files               |     100 |    86.95 |     100 |     100 |
 - ✅ forbids regular users and keeps the vehicle
 - ✅ requires authentication
 
-**tests/errorHandling.test.ts** ✅
-- ✅ returns 404 JSON for unknown routes
-- ✅ returns 400 for a malformed JSON body
-- ✅ hides unexpected errors behind a generic 500
-
-**tests/health.test.ts** ✅
-- ✅ responds with status ok
-
 **tests/auth/middleware.test.ts** ✅
 - ✅ rejects a request with no Authorization header
 - ✅ rejects a header that is not a Bearer token
@@ -163,6 +159,14 @@ All files               |     100 |    86.95 |     100 |     100 |
 - ✅ attaches the authenticated user for a valid token
 - ✅ forbids a regular user with 403
 - ✅ allows an admin through
+
+**tests/errorHandling.test.ts** ✅
+- ✅ returns 404 JSON for unknown routes
+- ✅ returns 400 for a malformed JSON body
+- ✅ hides unexpected errors behind a generic 500
+
+**tests/health.test.ts** ✅
+- ✅ responds with status ok
 
 **tests/vehicles/vehicle.service.unit.test.ts** ✅
 - ✅ decrements stock on purchase
@@ -231,13 +235,6 @@ All files          |   98.01 |    92.42 |   94.89 |   98.01 |
 
 ### Test cases
 
-**src/lib/format.test.ts**
-- ✅ formatPrice > formats whole dollars with thousands separators and no cents
-- ✅ formatPrice > rounds fractional amounts to the nearest dollar
-- ✅ stockLabel > says sold out at zero
-- ✅ stockLabel > warns when only a few are left
-- ✅ stockLabel > shows the count when stock is healthy
-
 **src/api/vehicles.test.ts**
 - ✅ vehiclesApi > lists everything from /api/vehicles when no filters are set
 - ✅ vehiclesApi > uses the search endpoint with only the filters that are set
@@ -251,6 +248,13 @@ All files          |   98.01 |    92.42 |   94.89 |   98.01 |
 - ✅ apiRequest > throws an ApiError carrying the server message and field errors
 - ✅ apiRequest > clears the token and notifies listeners when the session has expired (401)
 - ✅ apiRequest > turns a network failure into a friendly ApiError
+
+**src/lib/format.test.ts**
+- ✅ formatPrice > formats whole dollars with thousands separators and no cents
+- ✅ formatPrice > rounds fractional amounts to the nearest dollar
+- ✅ stockLabel > says sold out at zero
+- ✅ stockLabel > warns when only a few are left
+- ✅ stockLabel > shows the count when stock is healthy
 
 **src/components/RouteGuards.test.tsx**
 - ✅ ProtectedRoute > sends logged-out visitors to the login page
@@ -278,12 +282,6 @@ All files          |   98.01 |    92.42 |   94.89 |   98.01 |
 - ✅ PurchaseDialog > shows the server error and stays open if the purchase fails
 - ✅ PurchaseDialog > closes on Cancel and on Escape
 
-**src/components/FilterBar.test.tsx**
-- ✅ FilterBar > reports make and model text
-- ✅ FilterBar > selects a category chip and toggles it off again
-- ✅ FilterBar > reports a numeric price range
-- ✅ FilterBar > clears every filter at once
-
 **src/pages/ShowroomPage.test.tsx**
 - ✅ ShowroomPage > loads and displays all vehicles
 - ✅ ShowroomPage > shows an empty state when nothing matches
@@ -298,6 +296,12 @@ All files          |   98.01 |    92.42 |   94.89 |   98.01 |
 - ✅ App routing > redirects a signed-in user away from the login page
 - ✅ App routing > logs out and returns to the login page
 - ✅ App routing > shows a 404 page for unknown routes
+
+**src/components/FilterBar.test.tsx**
+- ✅ FilterBar > reports make and model text
+- ✅ FilterBar > selects a category chip and toggles it off again
+- ✅ FilterBar > reports a numeric price range
+- ✅ FilterBar > clears every filter at once
 
 **src/pages/InventoryPage.test.tsx**
 - ✅ InventoryPage > lists every vehicle with summary stats

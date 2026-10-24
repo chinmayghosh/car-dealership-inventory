@@ -14,6 +14,7 @@ Customers can browse, search and purchase vehicles; administrators manage the ca
 - [Features](#features)
 - [Tech stack](#tech-stack)
 - [Getting started](#getting-started)
+- [Deployment](#deployment)
 - [Running the tests](#running-the-tests)
 - [API reference](#api-reference)
 - [Architecture](#architecture)
@@ -65,8 +66,8 @@ No database server is needed: SQLite stores everything in a single file.
 ### 1. Clone
 
 ```bash
-git clone <your-repo-url> car-dealership
-cd car-dealership
+git clone https://github.com/chinmayghosh/car-dealership-inventory.git
+cd car-dealership-inventory
 ```
 
 ### 2. Backend (API on http://localhost:4000)
@@ -111,7 +112,7 @@ You can also register a new account; new accounts are always customers.
 | `JWT_SECRET` | Secret used to sign tokens. **Change it in production.** | – |
 | `JWT_EXPIRES_IN` | Token lifetime | `1d` |
 | `PORT` | API port | `4000` |
-| `CORS_ORIGIN` | Allowed frontend origin | `http://localhost:5173` |
+| `CORS_ORIGIN` | Allowed frontend origin(s), comma-separated | `http://localhost:5173` |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Admin account created by `npm run seed` | see above |
 
 **`frontend/.env`** (optional)
@@ -127,10 +128,25 @@ cd backend && npm run build && npm start      # compiled API
 cd frontend && npm run build                  # static files in frontend/dist
 ```
 
+## Deployment
+
+The backend runs on **Render** and the frontend on **Vercel**, both on free plans.
+
+| Part | Platform | Config |
+| --- | --- | --- |
+| API | Render web service | [`render.yaml`](render.yaml) (Blueprint), start command `npm run start:prod` |
+| SPA | Vercel (Vite preset, root directory `frontend`) | [`frontend/vercel.json`](frontend/vercel.json) rewrites all routes to `index.html` |
+
+**Free-plan trade-offs (intentional for a demo):**
+- Render's free plan has no persistent disk, so `start:prod` recreates the SQLite schema and re-runs the seed on
+  every start. The live demo therefore **resets to the sample inventory** whenever the service restarts.
+  For persistent production data, switch the Prisma datasource to PostgreSQL.
+- Free Render services sleep after ~15 minutes of inactivity; the first request afterwards can take ~50 seconds.
+
 ## Running the tests
 
 ```bash
-cd backend && npm test             # 89 tests
+cd backend && npm test             # 91 tests
 cd backend && npm run test:coverage
 cd frontend && npm test            # 64 tests
 cd frontend && npm run test:coverage
@@ -144,7 +160,7 @@ node scripts/generate-test-report.mjs
 
 | Suite | Tests | Line coverage |
 | --- | --- | --- |
-| Backend | 89 passing | 100% |
+| Backend | 91 passing | 100% |
 | Frontend | 64 passing | 98% |
 
 See **[TEST_REPORT.md](TEST_REPORT.md)** for every test case and per-file coverage.

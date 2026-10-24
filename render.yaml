@@ -1,0 +1,25 @@
+# Render Blueprint for the backend API (https://render.com/docs/blueprint-spec).
+# In Render: New + -> Blueprint -> pick this repository.
+services:
+  - type: web
+    name: apex-motors-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    # --include=dev: TypeScript and the Prisma CLI are needed to build and to create the schema at start-up.
+    buildCommand: npm ci --include=dev && npm run build
+    # The free plan has no persistent disk, so the SQLite database is recreated and re-seeded on every start.
+    startCommand: npm run start:prod
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL
+        value: file:./prod.db
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 1d
+      # Set this after the frontend is deployed, e.g. https://car-dealership-inventory.vercel.app
+      - key: CORS_ORIGIN
+        sync: false

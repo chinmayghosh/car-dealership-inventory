@@ -10,7 +10,8 @@
     "test:coverage": "jest --runInBand --coverage",
     "db:push": "prisma db push",
     "seed": "tsx prisma/seed.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "start:prod": "prisma db push --skip-generate && node dist/prisma/seed.js && node dist/src/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -38,5 +39,8 @@
     "ts-jest": "^29.4.15",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
