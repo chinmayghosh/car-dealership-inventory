@@ -7,10 +7,11 @@ interface VehicleCardProps {
   onPurchase: (vehicle: Vehicle) => void;
 }
 
+/** Badges sit on top of photos, so they use a near-opaque dark base to stay readable on bright images. */
 function stockTone(quantity: number): string {
-  if (quantity === 0) return 'bg-red-500/15 text-red-300 ring-red-500/30';
-  if (quantity <= 3) return 'bg-gold-400/15 text-gold-300 ring-gold-400/30';
-  return 'bg-emerald-500/15 text-emerald-300 ring-emerald-500/30';
+  if (quantity === 0) return 'bg-ink-950/85 text-red-300 ring-red-400/40';
+  if (quantity <= 3) return 'bg-ink-950/85 text-gold-300 ring-gold-400/40';
+  return 'bg-ink-950/85 text-emerald-300 ring-emerald-400/40';
 }
 
 export function VehicleCard({ vehicle, onPurchase }: VehicleCardProps) {
@@ -41,7 +42,12 @@ export function VehicleCard({ vehicle, onPurchase }: VehicleCardProps) {
 
         <div className="mt-auto flex items-end justify-between gap-3 pt-5">
           <p className="font-display text-2xl text-gold-400">{formatPrice(vehicle.price)}</p>
-          <button type="button" className="btn-primary" disabled={soldOut} onClick={() => onPurchase(vehicle)}>
+          <button
+            type="button"
+            className={soldOut ? 'btn bg-ink-800 text-ink-400 ring-1 ring-ink-600' : 'btn-primary'}
+            disabled={soldOut}
+            onClick={() => onPurchase(vehicle)}
+          >
             {soldOut ? 'Sold out' : 'Purchase'}
           </button>
         </div>

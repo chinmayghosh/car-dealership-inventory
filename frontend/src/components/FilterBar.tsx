@@ -56,13 +56,13 @@ export function FilterBar({ onChange }: { onChange: (filters: VehicleFilters) =>
           <label htmlFor="filter-min" className="label">
             Min price ($)
           </label>
-          <input id="filter-min" className="input" type="number" min={0} inputMode="numeric" placeholder="0" value={state.minPrice} onChange={set('minPrice')} />
+          <input id="filter-min" className="input" type="number" min={0} inputMode="numeric" placeholder="No min" value={state.minPrice} onChange={set('minPrice')} />
         </div>
         <div>
           <label htmlFor="filter-max" className="label">
             Max price ($)
           </label>
-          <input id="filter-max" className="input" type="number" min={0} inputMode="numeric" placeholder="Any" value={state.maxPrice} onChange={set('maxPrice')} />
+          <input id="filter-max" className="input" type="number" min={0} inputMode="numeric" placeholder="No max" value={state.maxPrice} onChange={set('maxPrice')} />
         </div>
       </div>
 
