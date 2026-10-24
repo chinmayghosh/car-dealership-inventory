@@ -20,7 +20,7 @@ import { VehicleService } from './modules/vehicles/vehicle.service';
 export function createApp(): Express {
   const app = express();
 
-  app.use(cors({ origin: config.corsOrigin }));
+  app.use(cors({ origin: config.corsOrigins }));
   app.use(express.json());
 
   app.get('/api/health', (_req, res) => {
