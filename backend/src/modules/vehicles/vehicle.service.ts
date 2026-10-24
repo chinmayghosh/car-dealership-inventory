@@ -44,6 +44,11 @@ export class VehicleService {
     return this.getOrThrow(id);
   }
 
+  async restock(id: string, units: number): Promise<Vehicle> {
+    await this.getOrThrow(id);
+    return this.vehicles.incrementStock(id, units);
+  }
+
   private async getOrThrow(id: string): Promise<Vehicle> {
     const vehicle = await this.vehicles.findById(id);
     if (!vehicle) {

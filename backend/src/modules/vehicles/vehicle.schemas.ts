@@ -38,6 +38,9 @@ const units = z.number().int('Quantity must be a whole number').positive('Quanti
 /** Purchase body is optional; buying one unit is the default. */
 export const purchaseSchema = z.object({ quantity: units.default(1) });
 
+/** Restocking must say how many units arrived. */
+export const restockSchema = z.object({ quantity: units });
+
 const optionalPrice = z.coerce.number().nonnegative('Price cannot be negative').optional();
 
 /** Query-string filters for search. Text filters are partial, case-insensitive matches. */

@@ -29,4 +29,8 @@ export class VehicleController {
   purchase = async (req: Request<{ id: string }>, res: Response) => {
     res.json(await this.vehicles.purchase(req.params.id, res.locals.body.quantity));
   };
+
+  restock = async (req: Request<{ id: string }>, res: Response) => {
+    res.json(await this.vehicles.restock(req.params.id, res.locals.body.quantity));
+  };
 }

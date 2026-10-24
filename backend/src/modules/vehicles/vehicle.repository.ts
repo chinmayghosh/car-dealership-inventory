@@ -11,6 +11,7 @@ export interface VehicleRepository {
   delete(id: string): Promise<void>;
   /** Atomically removes `units` from stock only if enough are available. Returns false otherwise. */
   decrementStockIfAvailable(id: string, units: number): Promise<boolean>;
+  incrementStock(id: string, units: number): Promise<Vehicle>;
 }
 
 export class PrismaVehicleRepository implements VehicleRepository {
@@ -59,5 +60,12 @@ export class PrismaVehicleRepository implements VehicleRepository {
       data: { quantity: { decrement: units } },
     });
     return count === 1;
+  }
+
+  incrementStock(id: string, units: number) {
+    return this.db.vehicle.update({
+      where: { id },
+      data: { quantity: { increment: units } },
+    });
   }
 }

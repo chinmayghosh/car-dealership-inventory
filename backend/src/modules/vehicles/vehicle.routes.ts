@@ -5,6 +5,7 @@ import { VehicleController } from './vehicle.controller';
 import {
   createVehicleSchema,
   purchaseSchema,
+  restockSchema,
   searchVehicleSchema,
   updateVehicleSchema,
 } from './vehicle.schemas';
@@ -21,6 +22,7 @@ export function vehicleRoutes(controller: VehicleController): Router {
   router.delete('/:id', requireAdmin, controller.delete);
 
   router.post('/:id/purchase', validate(purchaseSchema), controller.purchase);
+  router.post('/:id/restock', requireAdmin, validate(restockSchema), controller.restock);
 
   return router;
 }
