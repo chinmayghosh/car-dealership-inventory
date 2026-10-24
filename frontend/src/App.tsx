@@ -1,8 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppLayout } from './components/AppLayout';
-import { ProtectedRoute } from './components/RouteGuards';
+import { AdminRoute, ProtectedRoute } from './components/RouteGuards';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
+import InventoryPage from './pages/InventoryPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import RegisterPage from './pages/RegisterPage';
@@ -25,6 +26,14 @@ function AppRoutes() {
         }
       >
         <Route index element={<ShowroomPage />} />
+        <Route
+          path="admin"
+          element={
+            <AdminRoute>
+              <InventoryPage />
+            </AdminRoute>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
