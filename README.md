@@ -5,7 +5,11 @@ Customers can browse, search and purchase vehicles; administrators manage the ca
 
 ![Showroom](docs/screenshots/03-showroom.jpg)
 
-> **Live demo:** _coming soon_ · **Test report:** [TEST_REPORT.md](TEST_REPORT.md) · **AI chat logs:** [PROMPTS.md](PROMPTS.md)
+> **Live demo:** https://car-dealership-inventory-chi.vercel.app (log in with a [demo account](#demo-accounts-created-by-the-seed-script))
+> · **API:** https://apex-motors-api-e2gr.onrender.com/api/health
+> · **Test report:** [TEST_REPORT.md](TEST_REPORT.md) · **AI chat logs:** [PROMPTS.md](PROMPTS.md)
+>
+> The API runs on Render's free plan: if it has been idle, the first request can take up to a minute while it wakes up.
 
 ---
 
@@ -134,8 +138,8 @@ The backend runs on **Render** and the frontend on **Vercel**, both on free plan
 
 | Part | Platform | Config |
 | --- | --- | --- |
-| API | Render web service | [`render.yaml`](render.yaml) (Blueprint), start command `npm run start:prod` |
-| SPA | Vercel (Vite preset, root directory `frontend`) | [`frontend/vercel.json`](frontend/vercel.json) rewrites all routes to `index.html` |
+| API | Render web service: https://apex-motors-api-e2gr.onrender.com | [`render.yaml`](render.yaml) (Blueprint), start command `npm run start:prod` |
+| SPA | Vercel (Vite preset, root directory `frontend`): https://car-dealership-inventory-chi.vercel.app | [`frontend/vercel.json`](frontend/vercel.json) rewrites all routes to `index.html`; `VITE_API_URL` points at the API |
 
 **Free-plan trade-offs (intentional for a demo):**
 - Render's free plan has no persistent disk, so `start:prod` recreates the SQLite schema and re-runs the seed on
