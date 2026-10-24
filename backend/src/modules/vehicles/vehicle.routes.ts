@@ -13,6 +13,7 @@ export function vehicleRoutes(controller: VehicleController): Router {
   router.get('/search', validate(searchVehicleSchema, 'query'), controller.search);
   router.post('/', requireAdmin, validate(createVehicleSchema), controller.create);
   router.put('/:id', requireAdmin, validate(updateVehicleSchema), controller.update);
+  router.delete('/:id', requireAdmin, controller.delete);
 
   return router;
 }

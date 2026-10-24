@@ -8,6 +8,7 @@ export interface VehicleRepository {
   findById(id: string): Promise<Vehicle | null>;
   search(filters: VehicleSearchFilters): Promise<Vehicle[]>;
   update(id: string, data: UpdateVehicleInput): Promise<Vehicle>;
+  delete(id: string): Promise<void>;
 }
 
 export class PrismaVehicleRepository implements VehicleRepository {
@@ -40,5 +41,9 @@ export class PrismaVehicleRepository implements VehicleRepository {
 
   update(id: string, data: UpdateVehicleInput) {
     return this.db.vehicle.update({ where: { id }, data });
+  }
+
+  async delete(id: string) {
+    await this.db.vehicle.delete({ where: { id } });
   }
 }

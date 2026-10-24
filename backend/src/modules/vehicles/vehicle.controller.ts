@@ -20,4 +20,9 @@ export class VehicleController {
   update = async (req: Request<{ id: string }>, res: Response) => {
     res.json(await this.vehicles.update(req.params.id, res.locals.body));
   };
+
+  delete = async (req: Request<{ id: string }>, res: Response) => {
+    await this.vehicles.delete(req.params.id);
+    res.status(204).end();
+  };
 }

@@ -25,6 +25,11 @@ export class VehicleService {
     return this.vehicles.update(id, input);
   }
 
+  async delete(id: string): Promise<void> {
+    await this.getOrThrow(id);
+    await this.vehicles.delete(id);
+  }
+
   private async getOrThrow(id: string): Promise<Vehicle> {
     const vehicle = await this.vehicles.findById(id);
     if (!vehicle) {
