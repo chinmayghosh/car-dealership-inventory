@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { User } from '@prisma/client';
 import { HttpError } from '../../errors/HttpError';
 import { Role, signToken } from '../../utils/jwt';
-import { RegisterInput } from './auth.schemas';
+import { LoginInput, RegisterInput } from './auth.schemas';
 import { UserRepository } from './user.repository';
 
 const SALT_ROUNDS = 10;
@@ -40,6 +40,18 @@ export class AuthService {
       passwordHash,
       role: 'USER',
     });
+
+    return this.issueToken(user);
+  }
+
+  /** Uses one generic error for unknown email and wrong password to avoid leaking which accounts exist. */
+  async login(input: LoginInput): Promise<AuthResult> {
+    const user = await this.users.findByEmail(input.email);
+    const passwordMatches = user ? await bcrypt.compare(input.password, user.passwordHash) : false;
+
+    if (!user || !passwordMatches) {
+      throw HttpError.unauthorized('Invalid email or password');
+    }
 
     return this.issueToken(user);
   }

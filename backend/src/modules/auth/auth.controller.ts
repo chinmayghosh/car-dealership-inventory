@@ -8,4 +8,8 @@ export class AuthController {
   register = async (_req: Request, res: Response) => {
     res.status(201).json(await this.auth.register(res.locals.body));
   };
+
+  login = async (_req: Request, res: Response) => {
+    res.json(await this.auth.login(res.locals.body));
+  };
 }
