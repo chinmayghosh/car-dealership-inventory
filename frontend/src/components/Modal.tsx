@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 
 interface ModalProps {
   title: string;
@@ -16,9 +16,12 @@ export function Modal({ title, onClose, children, size = 'max-w-md' }: ModalProp
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
 
+  // Captured during the first render, before any child autoFocus runs, so focus returns to the trigger.
+  const [returnFocusTo] = useState(() => document.activeElement as HTMLElement | null);
+
   useEffect(() => {
-    const previouslyFocused = document.activeElement as HTMLElement | null;
-    panelRef.current?.focus();
+    // Respect a child's autoFocus (e.g. the first form field); otherwise focus the panel itself.
+    if (!panelRef.current?.contains(document.activeElement)) panelRef.current?.focus();
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
@@ -30,9 +33,9 @@ export function Modal({ title, onClose, children, size = 'max-w-md' }: ModalProp
     return () => {
       document.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = previousOverflow;
-      previouslyFocused?.focus();
+      returnFocusTo?.focus();
     };
-  }, [onClose]);
+  }, [onClose, returnFocusTo]);
 
   return (
     <div className="fixed inset-0 z-40 flex items-end justify-center p-4 sm:items-center">
