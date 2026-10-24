@@ -28,6 +28,11 @@ export const createVehicleSchema = z.object({
   description: z.string().trim().max(1000).optional(),
 });
 
+/** Partial update: any subset of the create fields, but at least one. */
+export const updateVehicleSchema = createVehicleSchema
+  .partial()
+  .refine((data) => Object.keys(data).length > 0, { message: 'Provide at least one field to update' });
+
 const optionalPrice = z.coerce.number().nonnegative('Price cannot be negative').optional();
 
 /** Query-string filters for search. Text filters are partial, case-insensitive matches. */
@@ -45,4 +50,5 @@ export const searchVehicleSchema = z
   });
 
 export type CreateVehicleInput = z.infer<typeof createVehicleSchema>;
+export type UpdateVehicleInput = z.infer<typeof updateVehicleSchema>;
 export type VehicleSearchFilters = z.infer<typeof searchVehicleSchema>;
