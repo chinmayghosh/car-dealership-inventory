@@ -14,7 +14,19 @@ const renderRegister = () =>
     extraRoutes: [{ path: '/', element: <p>Showroom home</p> }],
   });
 
-async function fillForm({ name = 'Jane Doe', email = 'jane@example.com', password = 'secret123', confirm = password } = {}) {
+interface FormValues {
+  name?: string;
+  email?: string;
+  password?: string;
+  confirm?: string;
+}
+
+async function fillForm({
+  name = 'Jane Doe',
+  email = 'jane@example.com',
+  password = 'secret123',
+  confirm = password,
+}: FormValues = {}) {
   await userEvent.type(screen.getByLabelText(/full name/i), name);
   await userEvent.type(screen.getByLabelText(/^email/i), email);
   await userEvent.type(screen.getByLabelText(/^password/i), password);
