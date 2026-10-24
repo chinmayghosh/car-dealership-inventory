@@ -14,7 +14,7 @@ describe('PurchaseDialog', () => {
     render(<PurchaseDialog vehicle={vehicle} onClose={vi.fn()} onPurchased={vi.fn()} />);
 
     expect(screen.getByRole('dialog', { name: /purchase toyota camry xse/i })).toBeInTheDocument();
-    expect(screen.getByLabelText(/quantity/i)).toHaveValue(1);
+    expect(screen.getByLabelText(/^quantity$/i)).toHaveValue(1);
     expect(screen.getByTestId('purchase-total')).toHaveTextContent('$20,000');
   });
 
@@ -27,7 +27,7 @@ describe('PurchaseDialog', () => {
 
     await userEvent.click(increase);
     await userEvent.click(increase);
-    expect(screen.getByLabelText(/quantity/i)).toHaveValue(3);
+    expect(screen.getByLabelText(/^quantity$/i)).toHaveValue(3);
     expect(increase).toBeDisabled();
   });
 
