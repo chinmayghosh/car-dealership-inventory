@@ -2,10 +2,9 @@ import request from 'supertest';
 import { createApp } from '../../src/app';
 import { bearer, userToken } from '../helpers/auth';
 import { prisma, resetDatabase } from '../helpers/db';
-import { insertVehicle } from '../helpers/vehicles';
+import { MISSING_ID, insertVehicle } from '../helpers/vehicles';
 
 const app = createApp();
-const MISSING_ID = '00000000-0000-0000-0000-000000000000';
 
 const purchase = (id: string, body?: object) =>
   request(app)

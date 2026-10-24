@@ -1,5 +1,8 @@
 import { prisma } from './db';
 
+/** A well-formed id that never matches a stored vehicle. */
+export const MISSING_ID = '00000000-0000-0000-0000-000000000000';
+
 /** Builds valid vehicle input; override only the fields a test cares about. */
 export function aVehicle(overrides: Record<string, unknown> = {}) {
   return {
