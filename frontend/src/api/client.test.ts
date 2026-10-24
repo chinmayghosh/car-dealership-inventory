@@ -1,5 +1,14 @@
 import { ApiError, apiRequest, tokenStore } from './client';
 
+/** Resolves with the error a promise rejects with (fails the test if it resolves). */
+const rejection = (promise: Promise<unknown>) =>
+  promise.then(
+    () => {
+      throw new Error('Expected the request to fail');
+    },
+    (error: ApiError) => error,
+  );
+
 const jsonResponse = (status: number, body: unknown) =>
   new Response(body === undefined ? null : JSON.stringify(body), {
     status,
@@ -59,7 +68,7 @@ describe('apiRequest', () => {
       }),
     );
 
-    const error = await apiRequest('/api/vehicles', { method: 'POST', body: {} }).catch((e) => e);
+    const error = await rejection(apiRequest('/api/vehicles', { method: 'POST', body: {} }));
 
     expect(error).toBeInstanceOf(ApiError);
     expect(error.status).toBe(400);
@@ -83,7 +92,7 @@ describe('apiRequest', () => {
   it('turns a network failure into a friendly ApiError', async () => {
     fetchMock.mockRejectedValue(new TypeError('Failed to fetch'));
 
-    const error = await apiRequest('/api/vehicles').catch((e) => e);
+    const error = await rejection(apiRequest('/api/vehicles'));
 
     expect(error).toBeInstanceOf(ApiError);
     expect(error.message).toMatch(/could not reach the server/i);

@@ -41,7 +41,8 @@ export interface VehicleInput {
 }
 
 export interface VehicleFilters {
-  text?: string;
+  make?: string;
+  model?: string;
   category?: string;
   minPrice?: number;
   maxPrice?: number;
