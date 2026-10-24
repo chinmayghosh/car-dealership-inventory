@@ -1,0 +1,12 @@
+import { Vehicle } from '@prisma/client';
+import { VehicleRepository } from './vehicle.repository';
+import { CreateVehicleInput } from './vehicle.schemas';
+
+/** Business rules for the vehicle inventory. */
+export class VehicleService {
+  constructor(private readonly vehicles: VehicleRepository) {}
+
+  create(input: CreateVehicleInput): Promise<Vehicle> {
+    return this.vehicles.create(input);
+  }
+}

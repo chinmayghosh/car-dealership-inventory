@@ -7,6 +7,10 @@ import { AuthController } from './modules/auth/auth.controller';
 import { authRoutes } from './modules/auth/auth.routes';
 import { AuthService } from './modules/auth/auth.service';
 import { PrismaUserRepository } from './modules/auth/user.repository';
+import { VehicleController } from './modules/vehicles/vehicle.controller';
+import { PrismaVehicleRepository } from './modules/vehicles/vehicle.repository';
+import { vehicleRoutes } from './modules/vehicles/vehicle.routes';
+import { VehicleService } from './modules/vehicles/vehicle.service';
 
 /**
  * Builds the Express application and wires its dependencies together
@@ -25,6 +29,9 @@ export function createApp(): Express {
 
   const authService = new AuthService(new PrismaUserRepository(prisma));
   app.use('/api/auth', authRoutes(new AuthController(authService)));
+
+  const vehicleService = new VehicleService(new PrismaVehicleRepository(prisma));
+  app.use('/api/vehicles', vehicleRoutes(new VehicleController(vehicleService)));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
