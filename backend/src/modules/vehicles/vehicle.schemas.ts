@@ -28,4 +28,21 @@ export const createVehicleSchema = z.object({
   description: z.string().trim().max(1000).optional(),
 });
 
+const optionalPrice = z.coerce.number().nonnegative('Price cannot be negative').optional();
+
+/** Query-string filters for search. Text filters are partial, case-insensitive matches. */
+export const searchVehicleSchema = z
+  .object({
+    make: z.string().trim().min(1).optional(),
+    model: z.string().trim().min(1).optional(),
+    category: z.enum(VEHICLE_CATEGORIES).optional(),
+    minPrice: optionalPrice,
+    maxPrice: optionalPrice,
+  })
+  .refine((q) => q.minPrice === undefined || q.maxPrice === undefined || q.minPrice <= q.maxPrice, {
+    message: 'minPrice cannot be greater than maxPrice',
+    path: ['minPrice'],
+  });
+
 export type CreateVehicleInput = z.infer<typeof createVehicleSchema>;
+export type VehicleSearchFilters = z.infer<typeof searchVehicleSchema>;

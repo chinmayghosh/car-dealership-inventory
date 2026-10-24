@@ -1,6 +1,6 @@
 import { Vehicle } from '@prisma/client';
 import { VehicleRepository } from './vehicle.repository';
-import { CreateVehicleInput } from './vehicle.schemas';
+import { CreateVehicleInput, VehicleSearchFilters } from './vehicle.schemas';
 
 /** Business rules for the vehicle inventory. */
 export class VehicleService {
@@ -13,5 +13,9 @@ export class VehicleService {
   /** Sold-out vehicles are included so the UI can show them with a disabled Purchase button. */
   list(): Promise<Vehicle[]> {
     return this.vehicles.findAll();
+  }
+
+  search(filters: VehicleSearchFilters): Promise<Vehicle[]> {
+    return this.vehicles.search(filters);
   }
 }

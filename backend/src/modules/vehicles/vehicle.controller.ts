@@ -12,4 +12,8 @@ export class VehicleController {
   list = async (_req: Request, res: Response) => {
     res.json(await this.vehicles.list());
   };
+
+  search = async (_req: Request, res: Response) => {
+    res.json(await this.vehicles.search(res.locals.query));
+  };
 }
