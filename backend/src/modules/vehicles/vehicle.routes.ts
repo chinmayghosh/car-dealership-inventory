@@ -9,6 +9,7 @@ export function vehicleRoutes(controller: VehicleController): Router {
   const router = Router();
   router.use(authenticate);
 
+  router.get('/', controller.list);
   router.post('/', requireAdmin, validate(createVehicleSchema), controller.create);
 
   return router;

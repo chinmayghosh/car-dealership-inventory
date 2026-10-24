@@ -8,4 +8,8 @@ export class VehicleController {
   create = async (_req: Request, res: Response) => {
     res.status(201).json(await this.vehicles.create(res.locals.body));
   };
+
+  list = async (_req: Request, res: Response) => {
+    res.json(await this.vehicles.list());
+  };
 }

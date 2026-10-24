@@ -9,4 +9,9 @@ export class VehicleService {
   create(input: CreateVehicleInput): Promise<Vehicle> {
     return this.vehicles.create(input);
   }
+
+  /** Sold-out vehicles are included so the UI can show them with a disabled Purchase button. */
+  list(): Promise<Vehicle[]> {
+    return this.vehicles.findAll();
+  }
 }
