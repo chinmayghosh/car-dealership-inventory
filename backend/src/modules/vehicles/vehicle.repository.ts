@@ -9,6 +9,8 @@ export interface VehicleRepository {
   search(filters: VehicleSearchFilters): Promise<Vehicle[]>;
   update(id: string, data: UpdateVehicleInput): Promise<Vehicle>;
   delete(id: string): Promise<void>;
+  /** Atomically removes `units` from stock only if enough are available. Returns false otherwise. */
+  decrementStockIfAvailable(id: string, units: number): Promise<boolean>;
 }
 
 export class PrismaVehicleRepository implements VehicleRepository {
@@ -45,5 +47,17 @@ export class PrismaVehicleRepository implements VehicleRepository {
 
   async delete(id: string) {
     await this.db.vehicle.delete({ where: { id } });
+  }
+
+  /**
+   * The stock check and the decrement happen in one conditional UPDATE, so two
+   * simultaneous buyers can never both take the last unit.
+   */
+  async decrementStockIfAvailable(id: string, units: number) {
+    const { count } = await this.db.vehicle.updateMany({
+      where: { id, quantity: { gte: units } },
+      data: { quantity: { decrement: units } },
+    });
+    return count === 1;
   }
 }

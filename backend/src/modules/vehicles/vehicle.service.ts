@@ -30,6 +30,20 @@ export class VehicleService {
     await this.vehicles.delete(id);
   }
 
+  async purchase(id: string, units: number): Promise<Vehicle> {
+    await this.getOrThrow(id);
+
+    if (!(await this.vehicles.decrementStockIfAvailable(id, units))) {
+      // Re-read so the message reflects the stock at the moment the purchase failed.
+      const { quantity } = await this.getOrThrow(id);
+      throw HttpError.conflict(
+        quantity === 0 ? 'This vehicle is out of stock' : `Only ${quantity} left in stock`,
+      );
+    }
+
+    return this.getOrThrow(id);
+  }
+
   private async getOrThrow(id: string): Promise<Vehicle> {
     const vehicle = await this.vehicles.findById(id);
     if (!vehicle) {

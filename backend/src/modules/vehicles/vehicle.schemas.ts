@@ -33,6 +33,11 @@ export const updateVehicleSchema = createVehicleSchema
   .partial()
   .refine((data) => Object.keys(data).length > 0, { message: 'Provide at least one field to update' });
 
+const units = z.number().int('Quantity must be a whole number').positive('Quantity must be at least 1');
+
+/** Purchase body is optional; buying one unit is the default. */
+export const purchaseSchema = z.object({ quantity: units.default(1) });
+
 const optionalPrice = z.coerce.number().nonnegative('Price cannot be negative').optional();
 
 /** Query-string filters for search. Text filters are partial, case-insensitive matches. */

@@ -25,4 +25,8 @@ export class VehicleController {
     await this.vehicles.delete(req.params.id);
     res.status(204).end();
   };
+
+  purchase = async (req: Request<{ id: string }>, res: Response) => {
+    res.json(await this.vehicles.purchase(req.params.id, res.locals.body.quantity));
+  };
 }
