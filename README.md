@@ -274,12 +274,6 @@ Vehicle photos are from [Unsplash](https://unsplash.com) and are loaded from the
 
 ## My AI Usage
 
-<!--
-  TODO (Chinmay): this section is a draft written from what happened in the session.
-  Read it, correct anything that is not accurate, and rewrite the reflection in your own words
-  before submitting. Interviewers will ask about it.
--->
-
 ### Tools used
 
 - **Claude Code** (Anthropic), using the **Claude Opus 5.5** model, in the Claude desktop app.
@@ -301,14 +295,30 @@ I worked with Claude Code as a pair programmer where I acted as the product owne
   unreadable stock badges on bright photos, a modal that stole focus from its first input, and a cramped mobile navbar.
   For the focus bug it wrote tests, confirmed they failed against the old code, then fixed it.
 - **Documentation.** This README and the test report were drafted by the AI and reviewed by me.
+- **Deployment.** The AI prepared the Render and Vercel configuration and tested it locally; I created the accounts,
+  pushed the repository and deployed both services myself, then the AI verified the live site.
 
 Every commit where AI was used carries a `Co-authored-by: Claude Opus 5.5 <noreply@anthropic.com>` trailer.
-The raw, unedited chat log is in [PROMPTS.md](PROMPTS.md).
+The complete chat log is in [PROMPTS.md](PROMPTS.md); the few mechanical changes made when converting it
+(truncated long outputs, omitted screenshots, my email redacted) are listed at its top.
 
 ### Reflection
 
-_Write this in your own words. Some prompts to answer honestly:_
-- _What did the AI speed up the most, and where did you still need to make the call?_
-- _Which decisions did you change or push back on, and why?_
-- _Did seeing tests written first change how much you trusted the generated code?_
-- _What would you do differently, or do yourself, next time?_
+AI sped up almost every part of this project: the project setup and tooling, turning the requirements into test cases,
+building a polished and responsive UI, and writing the documentation and test report. Work that would normally take me
+days of setup and boilerplate was done in hours, which let me spend my attention on decisions instead of typing.
+
+Those decisions are where I felt my own judgement mattered most. The kata leaves a lot open, so I had to decide the
+scope: making add and update admin-only, letting customers buy more than one unit, and keeping sold-out cars visible.
+I also chose the tech stack (Express, SQLite with Prisma, a seeded admin account, Render and Vercel) and set the design
+direction: the dark showroom look, the gold accent and a separate admin page.
+
+Honestly, seeing the app working in the browser convinced me more than the tests did. The red-then-green commits are
+good evidence that each feature does what was asked, but it was the browser checks that caught the problems the tests
+missed: badges you could not read on bright photos, a dialog that stole keyboard focus, and a cramped mobile navbar.
+That taught me that tests prove the behaviour you thought to specify, and you still need to look at the real thing.
+
+Next time I would do three things differently. I would write at least part of the code myself, to understand it more
+deeply than I can by directing it. I would read the generated code more closely, line by line, instead of mostly judging
+it by its results. And I would push back more: I accepted the AI's recommended option for many choices, and I want to
+get better at questioning those recommendations and arguing for alternatives.
